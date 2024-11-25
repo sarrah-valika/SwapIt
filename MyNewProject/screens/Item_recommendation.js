@@ -10,12 +10,15 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 
 export default function RecommendationPage() {
   const navigation = useNavigation();
   const recommendations = [
     {
       title: "Harry Potter Deathly Hallows",
+      name: "Aqsa Godil",
       category: "Book",
       description:
         "Harry Potter and the Deathly Hallows follows Harry, Ron, and Hermione on their quest to find and destroy Voldemort's Horcruxes while uncovering the mystery of the Deathly Hallows. It’s an epic conclusion to the saga of the Boy Who Lived.",
@@ -23,7 +26,24 @@ export default function RecommendationPage() {
     },
     {
       title: "Casio Scientific Calculator",
-      category: "Calculator",
+      name: "Aliha Zehra",
+      category: "Electronics",
+      description:
+        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
+      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
+    },
+    {
+      title: "Casio Scientific Calculator",
+      name: "Aliha Zehra",
+      category: "Electronics",
+      description:
+        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
+      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
+    },
+    {
+      title: "Casio Scientific Calculator",
+      name: "Aliha Zehra",
+      category: "Electronics",
       description:
         "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
       image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
@@ -44,12 +64,17 @@ export default function RecommendationPage() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Image
-            source={require("../assets/logo.png")} // Replace with your logo path
-            style={styles.logo}
-          />
-          <Text style={styles.title}>SwapIt</Text>
-        </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backArrow}>{"<"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Item Dashboard</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("MenuPage")}
+              style={styles.menuIconContainer}
+            >
+              <Icon name="bars" size={25} color="#FFF" />
+            </TouchableOpacity>
+          </View>
 
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -87,6 +112,7 @@ export default function RecommendationPage() {
               <Image source={{ uri: item.image }} style={styles.itemImage} />
               <View style={styles.itemInfo}>
                 <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={styles.itemName}>Owner Name: {item.name}</Text>
                 <Text style={styles.itemCategory}>Category: {item.category}</Text>
                 <Text style={styles.itemDescription}>
                   {truncateDescription(item.description)}
@@ -105,7 +131,7 @@ export default function RecommendationPage() {
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("swap-Page")}
+            onPress={() => navigation.navigate("SkillRecommendationPage")}
           >
             <Image
               source={require("../assets/skills.png")}
@@ -129,15 +155,7 @@ export default function RecommendationPage() {
               source={require("../assets/messages.png")}
               style={styles.footerIcon}
             />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerButton}
-            onPress={() => navigation.navigate("SettingsPage")}
-          >
-            <Image
-              source={require("../assets/settings.png")}
-              style={styles.footerIcon}
-            />
+          
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.footerButton}
@@ -157,22 +175,29 @@ export default function RecommendationPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#FFF8E1",
   },
   header: {
-    height: 60,
-    backgroundColor: "#007B7F",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 15,
+    justifyContent: "flex-start",
+    padding: 15,
+    backgroundColor: "#335c67", 
   },
-  logo: {
-    width: 70,
-    height: 70,
-    position: "absolute",
-    left: 18,
-    top: 2,
+  backArrow: {
+    fontSize: 20,
+    color: "#FFF",
+    marginRight: 10,
+  },
+  headerTitle: {
+    fontSize: 18,
+    color: "#FFF",
+    fontWeight: "bold",
+    marginLeft: 10, 
+  },
+  
+  menuIconContainer: {
+    marginLeft: 160,
   },
   title: {
     color: "#FFFFFF",
@@ -218,8 +243,8 @@ const styles = StyleSheet.create({
   },
   recommendationHeader: {
     marginVertical: 10,
-    padding: 10,
-    backgroundColor: "#F7E8AF",
+    padding: 7,
+    // backgroundColor: "#F7E8AF",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -233,6 +258,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     padding: 10,
+    paddingBottom: 80, // Ensure space for the footer
   },
   itemCard: {
     flexDirection: "row",
@@ -264,6 +290,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#555555",
     marginVertical: 5,
+    fontWeight: 'bold',
+  },
+  itemName:{
+    fontSize: 14,
+    color: "#555555",
+    marginTop: 10,
+    fontWeight: 'bold',
   },
   itemDescription: {
     fontSize: 12,
@@ -278,7 +311,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 70,
-    backgroundColor: "#007B7F",
+    backgroundColor: "#335c67",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

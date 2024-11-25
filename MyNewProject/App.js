@@ -7,6 +7,11 @@ import SettingsPage from "./screens/settings";
 import AboutPage from "./screens/about_swap"; 
 import RecommendationPage from "./screens/Item_recommendation"; 
 import ItemDescriptionPage from "./screens/item-description";
+import SkillRecommendationPage from "./screens/skill_recommendation";
+import TutorProfilePage from './screens/profile_descriptin';
+import SkillDescriptionPage from './screens/skill-description';
+import SkillMatchingPage from './screens/skill-matching';
+import AddItemPage from './screens/add_item';
 
 
 // export default function App() {
@@ -68,8 +73,13 @@ export default function App() {
         <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }}/>
         <Stack.Screen name="RecommendationPage" component={RecommendationPage} options={{ headerShown: false }} />
         <Stack.Screen name="ItemDescriptionPage" component={ItemDescriptionPage} options={{ headerShown: false }} />
+        <Stack.Screen name="SkillRecommendationPage" component={SkillRecommendationPage} options={{ headerShown: false }} />
+        <Stack.Screen name="TutorProfilePage" component={TutorProfilePage} options={{ headerShown: false }} />
+        <Stack.Screen name="SkillDescriptionPage" component={SkillDescriptionPage} options={{ headerShown: false }} />
+        <Stack.Screen name="SkillMatchingPage" component={SkillMatchingPage} options={{ headerShown: false }} />
+        <Stack.Screen name="AddItemPage" component={AddItemPage} options={{ headerShown: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-

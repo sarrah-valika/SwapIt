@@ -36,27 +36,12 @@ export default function AboutPage({ email = "SwapIt@gmail.com" }) {
     <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
     <View style={styles.container}>
-      {/* Sticky Navbar */}
-      <View style={styles.navbar}>
-        <Image
-          source={require("../assets/logo.png")} // Replace with your logo
-          style={styles.logo}
-        />
-        <Text style={styles.navbarTitle}>SwapIt</Text>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {/* About Heading */}
-        <View style={styles.headingContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Image
-              source={require("../assets/back-button.png")} // Replace with your back arrow icon path
-              style={styles.backIcon}
-            />
-          </TouchableOpacity>
-          <Text style={styles.headingText}>About</Text>
+        <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backArrow}>{"<"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>About</Text>
         </View>
-
         {/* About Section */}
         <View style={styles.aboutSection}>
           <Text style={styles.description}>
@@ -88,58 +73,49 @@ export default function AboutPage({ email = "SwapIt@gmail.com" }) {
           <Text style={styles.email}>{email}</Text>
           <Text style={styles.contactDetails}>Karachi, Pakistan</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
 
 
       {/* Sticky Footer with 5 Icons */}
       <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("swap-Page")}
-        >
-          <Image
-            source={require("../assets/skills.png")} 
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("RecommendationPage")}
-        >
-          <Image
-            source={require("../assets/items.png")} // Replace with favorites icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("chatPage")}
-        >
-          <Image
-            source={require("../assets/messages.png")} // Replace with swap icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("SettingsPage")}
-        >
-          <Image
-            source={require("../assets/settings.png")} // Replace with profile icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("ProfilePage")}
-        >
-          <Image
-            source={require("../assets/profile.png")} // Replace with settings icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("SkillRecommendationPage")}
+          >
+            <Image
+              source={require("../assets/skills.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("RecommendationPage")}
+          >
+            <Image
+              source={require("../assets/items.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("chatPage")}
+          >
+            <Image
+              source={require("../assets/messages.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("ProfilePage")}
+          >
+            <Image
+              source={require("../assets/profile.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+        </View>
+    
     </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -149,6 +125,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F5F5F5",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: "#335c67", 
+  },
+  backArrow: {
+    fontSize: 20,
+    color: "#FFF",
+    marginRight: 10,
+  },
+  headerTitle: {
+    fontSize: 18,
+    color: "#FFF",
+    fontWeight: "bold",
   },
   navbar: {
     height: 60,
@@ -232,6 +224,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
+    marginTop: 36, // Adjusted to move the description box down
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -241,10 +234,11 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: "#333333",
-    lineHeight: 22,
+    lineHeight: 24,
   },
   keyFeaturesSection: {
-    marginBottom: 20,
+    marginBottom: 30,
+    marginTop: 20, // Adjusted to move the description box down
   },
   subtitle: {
     fontSize: 20,
@@ -258,12 +252,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   purposeSection: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   contactButton: {
-    backgroundColor: "#007B7F",
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: "#335c67",
+    padding: 18,
+    borderRadius: 13,
     alignItems: "center",
   },
   email: {
@@ -283,19 +277,17 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 70,
-    backgroundColor: "#007B7F",
+    backgroundColor: "#335c67",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     position: "absolute",
     bottom: 0,
-    top: 727,
     left: 0,
     right: 0,
   },
   footerButton: {
     alignItems: "center",
-    justifyContent: "center",
   },
   footerIcon: {
     width: 30,

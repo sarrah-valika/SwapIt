@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import {StyleSheet,Text,View,TouchableOpacity,Image,ScrollView} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,160 +18,128 @@ export default function SettingsPage() {
 
   return (
     <SafeAreaProvider>
-    <SafeAreaView style={styles.container}>
-    <View >
-      {/* Sticky Navbar */}
-      <View style={styles.navbar}>
-        <Image
-          source={require("../assets/logo.png")} // Replace with your logo path
-          style={styles.logo}
-        />
-        <Text style={styles.navbarTitle}>SwapIt</Text>
-      </View>
-       {/* Settings Heading Section */}
-       <View style={styles.settingsHeader}>
-        <Image
-          source={require("../assets/settings.png")} // Replace with your gear logo path
-          style={styles.settingsLogo}
-        />
-        <Text style={styles.settingsTitle}>Settings</Text>
-      </View>
-      
+      <SafeAreaView style={styles.container}>
+        {/* Main Content */}
+        <View style={styles.mainContent}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backArrow}>{"<"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Settings</Text>
+          </View>
 
-      {/* Scrollable Content */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>ACCOUNT INFORMATION</Text>
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setNotificationsOpen(!isNotificationsOpen)}
-          >
-            <Text style={styles.rowText}>Notifications</Text>
-            <Text style={styles.arrow}>
-              {isNotificationsOpen ? "▲" : "▼"}
-            </Text>
-          </TouchableOpacity>
-          {isNotificationsOpen && (
-            <View style={styles.dropdownContent}>
-              <Text style={styles.dropdownText}>
-                loream dndjjmffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmekofnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
-              </Text>
-            </View>
-          )}
+          {/* Scrollable Content */}
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>ACCOUNT INFORMATION</Text>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => setNotificationsOpen(!isNotificationsOpen)}
+              >
+                <Text style={styles.rowText}>Notifications</Text>
+                <Text style={styles.arrow}>
+                  {isNotificationsOpen ? "▲" : "▼"}
+                </Text>
+              </TouchableOpacity>
+              {isNotificationsOpen && (
+                <View style={styles.dropdownContent}>
+                  <Text style={styles.dropdownText}>
+                    Manage your notification preferences here.
+                  </Text>
+                </View>
+              )}
 
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setPrivacyOpen(!isPrivacyOpen)}
-          >
-            <Text style={styles.rowText}>Privacy and Data</Text>
-            <Text style={styles.arrow}>
-              {isPrivacyOpen ? "▲" : "▼"}
-            </Text>
-          </TouchableOpacity>
-          {isPrivacyOpen && (
-            <View style={styles.dropdownContent}>
-              <Text style={styles.dropdownText}>
-                kdjfvncnwjdc reindjciuefnvjk cwenosowaklncbewiojshddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-              </Text>
-              <Text style={styles.dropdownText}>
-                kdjfvncnwjdc reindjciuefnvjk cwenosowaklncbewiojshddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-              </Text>
-              <Text style={styles.dropdownText}>
-                kdjfvncnwjdc reindjciuefnvjk cwenosowaklncbewiojshddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-              </Text>
-              <Text style={styles.dropdownText}>
-                kdjfvncnwjdc reindjciuefnvjk cwenosowaklncbewiojshddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-              </Text>
-              <Text style={styles.dropdownText}>
-                kdjfvncnwjdc reindjciuefnvjk cwenosowaklncbewiojshddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-              </Text>
-            </View>
-          )}
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => setPrivacyOpen(!isPrivacyOpen)}
+              >
+                <Text style={styles.rowText}>Privacy and Data</Text>
+                <Text style={styles.arrow}>{isPrivacyOpen ? "▲" : "▼"}</Text>
+              </TouchableOpacity>
+              {isPrivacyOpen && (
+                <View style={styles.dropdownContent}>
+                  <Text style={styles.dropdownText}>
+                    Control your data privacy settings here.
+                  </Text>
+                </View>
+              )}
 
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setSecurityOpen(!isSecurityOpen)}
-          >
-            <Text style={styles.rowText}>Security and Logins</Text>
-            <Text style={styles.arrow}>
-              {isSecurityOpen ? "▲" : "▼"}
-            </Text>
-          </TouchableOpacity>
-          {isSecurityOpen && (
-            <View style={styles.dropdownContent}>
-              <Text style={styles.dropdownText}>
-                Manage security and login options here.
-              </Text>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => setSecurityOpen(!isSecurityOpen)}
+              >
+                <Text style={styles.rowText}>Security and Logins</Text>
+                <Text style={styles.arrow}>
+                  {isSecurityOpen ? "▲" : "▼"}
+                </Text>
+              </TouchableOpacity>
+              {isSecurityOpen && (
+                <View style={styles.dropdownContent}>
+                  <Text style={styles.dropdownText}>
+                    Manage security and login options here.
+                  </Text>
+                </View>
+              )}
             </View>
-          )}
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>ACTIONS</Text>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={() => navigation.navigate("AboutPage")}
+              >
+                <Text style={styles.rowText}>About</Text>
+                <Text style={styles.arrow}>▶</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.logoutButton}>
+              <Text style={styles.logoutText}>Logout</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>ACTIONS</Text>
+        {/* Footer */}
+        <View style={styles.footer}>
           <TouchableOpacity
-            style={styles.row}
-            onPress={() => navigation.navigate("AboutPage")}
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("SkillRecommendationPage")}
           >
-            <Text style={styles.rowText}>About</Text>
-            <Text style={styles.arrow}>▶</Text>
+            <Image
+              source={require("../assets/skills.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("RecommendationPage")}
+          >
+            <Image
+              source={require("../assets/items.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("MessagingPage")}
+          >
+            <Image
+              source={require("../assets/messages.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("ProfilePage")}
+          >
+            <Image
+              source={require("../assets/profile.png")}
+              style={styles.footerIcon}
+            />
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
-    </ScrollView>
-
-      {/* Sticky Footer with 5 Icons */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("swap-Page")}
-        >
-          <Image
-            source={require("../assets/skills.png")} 
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("RecommendationPage")}
-        >
-          <Image
-            source={require("../assets/items.png")} // Replace with favorites icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("chatPage")}
-        >
-          <Image
-            source={require("../assets/messages.png")} // Replace with swap icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("SettingsPage")}
-        >
-          <Image
-            source={require("../assets/settings.png")} // Replace with profile icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-           onPress={() => navigation.navigate("ProfilePage")}
-        >
-          <Image
-            source={require("../assets/profile.png")} // Replace with settings icon path
-            style={styles.footerIcon}
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
-    </SafeAreaView>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
@@ -173,63 +148,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F5F5F5",
-    // paddingBottom: 70,
   },
-  navbar: {
-    height: 60,
-    backgroundColor: "#007B7F",
+  mainContent: {
+    flex: 1,
+    marginBottom: 70, // Leave space for footer
+  },
+  header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    paddingHorizontal: 15,
+    padding: 15,
+    backgroundColor: "#335c67",
   },
-  logo: {
-    width: 70,
-    height: 70,
-    position: "absolute",
-    left: 18,
-    top: 2,
-  },
-  navbarTitle: {
-    color: "#FFFFFF",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  settingsHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F7E8AF",
-    paddingVertical: 5,
-    marginTop: 80, // Space between navbar and heading
-    borderRadius: 5,
-    marginHorizontal: 66,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 3, // Shadow for Android
-  },
-  settingsLogo: {
-    width: 26,
-    height: 26,
+  backArrow: {
+    fontSize: 20,
+    color: "#FFF",
     marginRight: 10,
   },
-  settingsTitle: {
-    fontSize: 22,
+  headerTitle: {
+    fontSize: 18,
+    color: "#FFF",
     fontWeight: "bold",
-    color: "#333333",
   },
   scrollContent: {
     paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 200,
-    borderColor: "#ff",
   },
   section: {
     marginBottom: 20,
@@ -265,7 +208,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   logoutButton: {
-    backgroundColor: "#F7E8AF",
+    backgroundColor: "#FFB343",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
@@ -278,19 +221,17 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 70,
-    backgroundColor: "#007B7F",
+    backgroundColor: "#335c67",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     position: "absolute",
-    bottom: 0,  //do this
-    top: 727,
+    bottom: 0,
     left: 0,
     right: 0,
   },
   footerButton: {
     alignItems: "center",
-    justifyContent: "center",
   },
   footerIcon: {
     width: 30,

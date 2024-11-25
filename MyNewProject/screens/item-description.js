@@ -19,26 +19,44 @@ export default function ItemDescriptionPage({ route }) {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Image
-            source={require("../assets/logo.png")} // Replace with your logo path
-            style={styles.logo}
-          />
-          <Text style={styles.title}>SwapIt</Text>
-        </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backArrow}>{"<"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Item Description</Text>
+            
+          </View>
+
 
         {/* Content inside a ScrollView */}
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Image source={{ uri: item.image }} style={styles.itemImage} />
           <Text style={styles.itemTitle}>{item.title}</Text>
+          <Text style={styles.itemCategory}>Owner Name: {item.name}</Text>
           <Text style={styles.itemCategory}>Category: {item.category}</Text>
           <Text style={styles.itemDescription}>{item.description}</Text>
+          {/* Buttons */}
+          <View style={styles.buttonContainer}>
+          <TouchableOpacity
+                style={styles.notInterestedButton}
+                // onPress={() => navigation.navigate("AddItemPage")} //redirect to message page
+                onPress={() => navigation.navigate("MessagePage")}
+              >
+                <Text style={styles.buttonText}>Interested</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.notInterestedButton}
+                onPress={() => navigation.navigate("RecommendationPage")}
+              >
+                <Text style={styles.buttonText}>Not Interested</Text>
+              </TouchableOpacity>
+            </View>
         </ScrollView>
 
         {/* Sticky Footer */}
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("swap-Page")}
+            onPress={() => navigation.navigate("SkillRecommendationPage")}
           >
             <Image
               source={require("../assets/skills.png")}
@@ -63,15 +81,7 @@ export default function ItemDescriptionPage({ route }) {
               style={styles.footerIcon}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerButton}
-            onPress={() => navigation.navigate("SettingsPage")}
-          >
-            <Image
-              source={require("../assets/settings.png")}
-              style={styles.footerIcon}
-            />
-          </TouchableOpacity>
+          
           <TouchableOpacity
             style={styles.footerButton}
             onPress={() => navigation.navigate("ProfilePage")}
@@ -90,22 +100,48 @@ export default function ItemDescriptionPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#FFF8E1",
   },
   header: {
-    height: 60,
-    backgroundColor: "#007B7F",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 15,
+    justifyContent: "flex-start",
+    padding: 15,
+    backgroundColor: "#335c67", 
   },
-  logo: {
-    width: 70,
-    height: 70,
-    position: "absolute",
-    left: 18,
-    top: 2,
+  backArrow: {
+    fontSize: 20,
+    color: "#FFF",
+    marginRight: 10,
+  },
+  headerTitle: {
+    fontSize: 18,
+    color: "#FFF",
+    fontWeight: "bold",
+    marginLeft: 10, 
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingVertical: 15,
+    backgroundColor: "#FFF8E1",
+    marginTop: 20,
+  },
+  interestedButton: {
+    backgroundColor: "#007B7F",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  notInterestedButton: {
+    backgroundColor: "#FFB343",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
   title: {
     color: "#FFFFFF",
@@ -114,6 +150,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
+    paddingBottom: 80, // Ensure space for the footer
   },
   itemImage: {
     width: "100%",
@@ -131,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#555555",
     marginBottom: 10,
+    fontWeight: 'bold',
   },
   itemDescription: {
     fontSize: 16,
@@ -139,7 +177,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 70,
-    backgroundColor: "#007B7F",
+    backgroundColor: "#335c67",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
