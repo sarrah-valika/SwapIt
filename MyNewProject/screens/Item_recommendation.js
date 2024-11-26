@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,14 +7,16 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-
 export default function RecommendationPage() {
   const navigation = useNavigation();
+  const [menuVisible, setMenuVisible] = useState(false); // State for menu visibility
+
   const recommendations = [
     {
       title: "Harry Potter Deathly Hallows",
@@ -32,23 +34,6 @@ export default function RecommendationPage() {
         "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
       image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
     },
-    {
-      title: "Casio Scientific Calculator",
-      name: "Aliha Zehra",
-      category: "Electronics",
-      description:
-        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
-      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
-    },
-    {
-      title: "Casio Scientific Calculator",
-      name: "Aliha Zehra",
-      category: "Electronics",
-      description:
-        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
-      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
-    },
-    
   ];
 
   const truncateDescription = (description) => {
@@ -64,17 +49,17 @@ export default function RecommendationPage() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.backArrow}>{"<"}</Text>
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Item Dashboard</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("MenuPage")}
-              style={styles.menuIconContainer}
-            >
-              <Icon name="bars" size={25} color="#FFF" />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.backArrow}>{"<"}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Item Dashboard</Text>
+          <TouchableOpacity
+            onPress={() => setMenuVisible(true)} // Open the menu
+            style={styles.menuIconContainer}
+          >
+            <Icon name="bars" size={25} color="#FFF" />
+          </TouchableOpacity>
+        </View>
 
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -91,20 +76,6 @@ export default function RecommendationPage() {
           </TouchableOpacity>
         </View>
 
-        {/* Recommendation Header */}
-        <View style={styles.recommendationHeader}>
-          <Text style={styles.recommendationText}>Recommended Items for you:</Text>
-          {/* <TouchableOpacity
-            style={styles.plusIconContainer}
-            onPress={() => navigation.navigate("AddingItemPage")} // Navigate to the desired page
-          >
-            <Image
-              source={require("../assets/plus.png")} // Replace with your plus icon path
-              style={styles.plusIcon}
-            />
-          </TouchableOpacity> */}
-        </View>
-
         {/* Recommendations */}
         <ScrollView style={styles.scrollContainer}>
           {recommendations.map((item, index) => (
@@ -118,7 +89,9 @@ export default function RecommendationPage() {
                   {truncateDescription(item.description)}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("ItemDescriptionPage", { item })}
+                  onPress={() =>
+                    navigation.navigate("ItemDescriptionPage", { item })
+                  }
                 >
                   <Text style={styles.readMore}>Read More</Text>
                 </TouchableOpacity>
@@ -127,7 +100,7 @@ export default function RecommendationPage() {
           ))}
         </ScrollView>
 
-        {/* Sticky Footer */}
+        {/* Footer */}
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
@@ -155,7 +128,6 @@ export default function RecommendationPage() {
               source={require("../assets/messages.png")}
               style={styles.footerIcon}
             />
-          
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.footerButton}
@@ -167,6 +139,50 @@ export default function RecommendationPage() {
             />
           </TouchableOpacity>
         </View>
+
+        {/* Menu Modal */}
+        <Modal
+          visible={menuVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setMenuVisible(false)}
+        >
+          <View style={styles.menuOverlay}>
+            <View style={styles.menuContainer}>
+              <TouchableOpacity
+                onPress={() => setMenuVisible(false)} // Close the menu
+                style={styles.closeButton}
+              >
+                <Text style={styles.closeText}>Close</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SettingsPage")}
+              >
+                <Text style={styles.menuItem}>Settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("CommunityPage")}
+              >
+                <Text style={styles.menuItem}>Community</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HistoryPage")}
+              >
+                <Text style={styles.menuItem}>History</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HelpFeedbackPage")}
+              >
+                <Text style={styles.menuItem}>Help and Feedback</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("MainPage")} //redirect to main page
+              >
+                <Text style={styles.LogoutItem}>Logout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -235,6 +251,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
+  },
+  menuOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-start",
+  },
+  menuContainer: {
+    backgroundColor: "#FFF",
+    padding: 20,
+    borderRadius: 10,
+    marginTop: 50, // Adjust as needed for better visibility
+    marginHorizontal: 20,
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+    marginBottom: 20,
+    padding: 5,
+  },
+  closeText: {
+    fontSize: 16,
+    color: "#007B7F",
+    fontWeight: "bold",
+  },
+  menuItem: {
+    fontSize: 18,
+    color: "#333",
+    marginVertical: 10,
+  },
+  LogoutItem:{
+    fontSize: 18,
+    color: "#333",
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
   plusIcon: {
     width: 20,
