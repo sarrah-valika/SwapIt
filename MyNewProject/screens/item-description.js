@@ -84,7 +84,7 @@ export default function ItemDescriptionPage({ route }) {
           
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("ProfilePage")}
+            onPress={() => navigation.navigate("Myprofile")}
           >
             <Image
               source={require("../assets/profile.png")}

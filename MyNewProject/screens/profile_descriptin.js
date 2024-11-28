@@ -132,7 +132,7 @@ export default function TutorProfilePage({ route, navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("")}
+            onPress={() => navigation.navigate("Myprofile")}
           >
             <Image
               source={require("../assets/profile.png")}

@@ -77,7 +77,7 @@ const UserReviewPage = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate("MessagingPage")}>
           <Image source={require("../assets/messages.png")} style={styles.footerIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Myprofile")}>
           <Image source={require("../assets/settings.png")} style={styles.footerIcon} />
         </TouchableOpacity>
       </View>
