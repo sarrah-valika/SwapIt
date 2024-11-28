@@ -94,7 +94,8 @@ export default function SettingsPage() {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.logoutButton}>
+            <TouchableOpacity style={styles.logoutButton}
+            onPress={() => navigation.navigate("GetStartedPage")}>
               <Text style={styles.logoutText}>Logout</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -104,7 +105,7 @@ export default function SettingsPage() {
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("SkillRecommendationPage")}
+            onPress={() => navigation.navigate("SkillDashboardPage")}
           >
             <Image
               source={require("../assets/skills.png")}

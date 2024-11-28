@@ -7,9 +7,12 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { Picker } from "@react-native-picker/picker";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 export default function AddItemPage() {
   const navigation = useNavigation();
@@ -20,8 +23,70 @@ export default function AddItemPage() {
   const [imageUri, setImageUri] = useState("");
 
   const handleSave = () => {
-    // Handle Save Logic Here
-    alert("Item Saved!");
+    if (!name || !description || !category || !condition || !imageUri) {
+      alert("Please fill out all fields before saving.");
+      return;
+    }
+
+    if (description.split(" ").length < 50) {
+      alert("Description must be at least 50 words.");
+      return;
+    }
+
+    // If all fields are filled, proceed to save
+    alert("Item Uploaded!");
+  };
+
+  const handleUploadImage = () => {
+    console.log("done");
+    Alert.alert("Upload Image", "Choose an option", [
+      {
+        text: "Take Photo",
+        onPress: () => {
+          launchCamera(
+            {
+              mediaType: "photo",
+              saveToPhotos: true,
+            },
+            (response) => {
+              if (response.didCancel) {
+                console.log("User canceled image picker");
+              } else if (response.errorMessage) {
+                console.error("Image picker error:", response.errorMessage);
+              } else {
+                setImageUri(response.assets[0].uri);
+              }
+            }
+          );
+        },
+      },
+      {
+        text: "Choose Photo",
+        onPress: () => {
+          launchImageLibrary(
+            {
+              mediaType: "photo",
+            },
+            (response) => {
+              if (response.didCancel) {
+                console.log("User canceled image picker");
+              } else if (response.errorMessage) {
+                console.error("Image picker error:", response.errorMessage);
+              } else {
+                setImageUri(response.assets[0].uri);
+              }
+            }
+          );
+        },
+      },
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      
+      
+    ]);
+    console.log("finish");
   };
 
   return (
@@ -55,12 +120,20 @@ export default function AddItemPage() {
           />
 
           <Text style={styles.label}>Category</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter item category"
-            value={category}
-            onChangeText={setCategory}
-          />
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={category}
+              onValueChange={(itemValue) => setCategory(itemValue)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Select a category" value="" />
+              <Picker.Item label="Electronics" value="Electronics" />
+              <Picker.Item label="Books" value="Books" />
+              <Picker.Item label="Clothing" value="Clothing" />
+              <Picker.Item label="Furniture" value="Furniture" />
+              <Picker.Item label="Others" value="Others" />
+            </Picker>
+          </View>
 
           <Text style={styles.label}>Condition</Text>
           <TextInput
@@ -72,14 +145,15 @@ export default function AddItemPage() {
           />
 
           <Text style={styles.label}>Upload Image</Text>
-          <TouchableOpacity
-            style={styles.uploadButton}
-            onPress={() => alert("Image upload functionality coming soon!")}
-          >
-            <Image
-              source={require("../assets/upload.png")} // Replace with your asset path
-              style={styles.uploadIcon}
-            />
+          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadImage}>
+            {imageUri ? (
+              <Image source={{ uri: imageUri }} style={styles.uploadedImage} />
+            ) : (
+              <Image
+                source={require("../assets/upload.png")} // Replace with your asset path
+                style={styles.uploadIcon}
+              />
+            )}
           </TouchableOpacity>
         </ScrollView>
 
@@ -134,6 +208,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 5,
+    marginBottom: 20,
+    backgroundColor: "#FFF8E1",
+  },
+  picker: {
+    height: 50,
+    width: "100%",
+  },
   uploadButton: {
     backgroundColor: "#FFF8E1",
     borderWidth: 1,
@@ -149,6 +234,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     tintColor: "#007B7F",
+  },
+  uploadedImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 5,
   },
   footer: {
     padding: 15,

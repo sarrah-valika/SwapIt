@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default function SkillRecommendationPage() {
   const navigation = useNavigation();
   const [menuVisible, setMenuVisible] = useState(false);
+  const [highlightedItem, setHighlightedItem] = useState("");
   const tutors = [
     { name: "Ismail Khan", skills: "React", learn: "Guitar" },
     { name: "Maryam Khan", skills: "ReactNative", learn: "Photoshop" },
@@ -47,7 +48,11 @@ export default function SkillRecommendationPage() {
     },
 ];
 
-
+const getMenuItemStyle = (item) => {
+  return highlightedItem === item
+    ? { backgroundColor: "yellow",  borderRadius: 5 }
+    : {};
+};
 
   return (
     <SafeAreaProvider>
@@ -55,9 +60,9 @@ export default function SkillRecommendationPage() {
         <ScrollView>
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            {/* <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={styles.backArrow}>{"<"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text style={styles.headerTitle}>Skill Dashboard</Text>
             <TouchableOpacity
               onPress={() => setMenuVisible(true)}
@@ -80,21 +85,23 @@ export default function SkillRecommendationPage() {
             {/* Recommended Tutors */}
             <Text style={styles.sectionTitle}>Recommended Tutors For You:</Text>
             <View style={styles.gridContainer}>
-              {tutors.map((tutor, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.tutorCard}
-                  onPress={() =>
-                    navigation.navigate("TutorProfilePage", { tutor })
-                  }
-                >
-                  <Icon name="user-circle" size={50} color="#007B7F" />
-                  <Text style={styles.tutorName}>{tutor.name}</Text>
-                  <Text style={styles.tutorSkills}>Skills: {tutor.skills}</Text>
-                  <Text style={styles.tutorSkills}>Learn: {tutor.learn}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+                {tutors.map((tutor, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.tutorCard}
+                    onPress={() => navigation.navigate("TutorProfilePage", { tutor })}
+                  >
+                    <Icon name="user-circle" size={50} color="#007B7F" />
+                    <Text style={styles.tutorSkills}>
+                      <Text style={styles.boldText}>Skills:</Text> {tutor.skills}
+                    </Text>
+                    <View style={{ marginTop: 10 }}> {/* Add space between skills and name */}
+                      <Text style={styles.tutorName}>{tutor.name}</Text>
+                    </View>
+                    <Text style={styles.tutorLearn}>Learn: {tutor.learn}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
 
             {/* Recommended Skills */}
             <Text style={styles.sectionTitle}>Recommended Skills For You:</Text>
@@ -168,35 +175,44 @@ export default function SkillRecommendationPage() {
           <View style={styles.menuOverlay}>
             <View style={styles.menuContainer}>
               <TouchableOpacity
-                onPress={() => setMenuVisible(false)}
+                onPress={() => setMenuVisible(false)} // Close the menu
                 style={styles.closeButton}
               >
                 <Text style={styles.closeText}>Close</Text>
               </TouchableOpacity>
+              {/* Menu Items */}
               <TouchableOpacity
                 onPress={() => navigation.navigate("SettingsPage")}
+                onPressIn={() => setHighlightedItem("Settings")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Settings")]}
               >
-                <Text style={styles.menuItem}>Settings</Text>
+                <Text style={styles.menuItemText}>Settings</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("CommunityPage")}
-              >
-                <Text style={styles.menuItem}>Community</Text>
-              </TouchableOpacity>
+              
               <TouchableOpacity
                 onPress={() => navigation.navigate("HistoryPage")}
+                onPressIn={() => setHighlightedItem("History")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("History")]}
               >
-                <Text style={styles.menuItem}>History</Text>
+                <Text style={styles.menuItemText}>History</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("HelpFeedbackPage")}
+                onPressIn={() => setHighlightedItem("Help and Feedback")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Help and Feedback")]}
               >
-                <Text style={styles.menuItem}>Help and Feedback</Text>
+                <Text style={styles.menuItemText}>Help and Feedback</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("MainPage")} //redirect to main page
+                onPress={() => navigation.navigate("GetStartedPage")}
+                onPressIn={() => setHighlightedItem("Log Out")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Log Out")]}
               >
-                <Text style={styles.LogoutItem}>Logout</Text>
+                <Text style={styles.menuItemText}>Log Out</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -218,6 +234,10 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#335c67",
   },
+  boldText: {
+  fontWeight: "bold",
+},
+
   backArrow: {
     fontSize: 20,
     color: "#FFF",
@@ -229,7 +249,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   menuIconContainer: {
-    marginLeft: "auto",
+    marginRight: 10,
   },
   skillIcon: {
   width: 50, // Adjust size as needed
@@ -285,29 +305,35 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   tutorCard: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    padding: 30,
-    borderRadius: 10,
-    width: "46%",
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  tutorName: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#333",
-    textAlign: "center",
-  },
-  tutorSkills: {
-    fontSize: 12,
-    color: "#555",
-    textAlign: "center",
-  },
+  alignItems: "center",
+  backgroundColor: "#FFFFFF",
+  padding: 30,
+  borderRadius: 10,
+  width: "46%",
+  marginBottom: 20,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 2,
+},
+tutorSkills: {
+  fontSize: 12,
+  color: "#555",
+  textAlign: "center",
+},
+tutorName: {
+  fontSize: 14,
+  fontWeight: "bold",
+  color: "#333",
+  textAlign: "center",
+},
+tutorLearn: {
+  fontSize: 12,
+  color: "#555",
+  textAlign: "center",
+},
+
   skillCard: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",

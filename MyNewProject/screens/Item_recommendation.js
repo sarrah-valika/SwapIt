@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default function RecommendationPage() {
   const navigation = useNavigation();
   const [menuVisible, setMenuVisible] = useState(false); // State for menu visibility
+  const [highlightedItem, setHighlightedItem] = useState("");
 
   const recommendations = [
     {
@@ -43,15 +44,20 @@ export default function RecommendationPage() {
     }
     return description;
   };
+  const getMenuItemStyle = (item) => {
+    return highlightedItem === item
+      ? { backgroundColor: "yellow",  borderRadius: 5 }
+      : {};
+  };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>{"<"}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={styles.headerTitle}>Item Dashboard</Text>
           <TouchableOpacity
             onPress={() => setMenuVisible(true)} // Open the menu
@@ -155,30 +161,39 @@ export default function RecommendationPage() {
               >
                 <Text style={styles.closeText}>Close</Text>
               </TouchableOpacity>
+              {/* Menu Items */}
               <TouchableOpacity
                 onPress={() => navigation.navigate("SettingsPage")}
+                onPressIn={() => setHighlightedItem("Settings")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Settings")]}
               >
-                <Text style={styles.menuItem}>Settings</Text>
+                <Text style={styles.menuItemText}>Settings</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("CommunityPage")}
-              >
-                <Text style={styles.menuItem}>Community</Text>
-              </TouchableOpacity>
+              
               <TouchableOpacity
                 onPress={() => navigation.navigate("HistoryPage")}
+                onPressIn={() => setHighlightedItem("History")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("History")]}
               >
-                <Text style={styles.menuItem}>History</Text>
+                <Text style={styles.menuItemText}>History</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("HelpFeedbackPage")}
+                onPressIn={() => setHighlightedItem("Help and Feedback")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Help and Feedback")]}
               >
-                <Text style={styles.menuItem}>Help and Feedback</Text>
+                <Text style={styles.menuItemText}>Help and Feedback</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("MainPage")} //redirect to main page
+                onPress={() => navigation.navigate("GetStartedPage")}
+                onPressIn={() => setHighlightedItem("Log Out")}
+                onPressOut={() => setHighlightedItem("")}
+                style={[styles.menuItem, getMenuItemStyle("Log Out")]}
               >
-                <Text style={styles.LogoutItem}>Logout</Text>
+                <Text style={styles.menuItemText}>Log Out</Text>
               </TouchableOpacity>
             </View>
           </View>

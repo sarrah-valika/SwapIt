@@ -78,7 +78,7 @@ export default function SkillMatchingPage() {
                       })
                     }
                   >
-                    <Text style={styles.swapButtonText}>Swap</Text>
+                    <Text style={styles.swapButtonText}>Interested</Text>
                   </TouchableOpacity>
                 </View>
               ))}

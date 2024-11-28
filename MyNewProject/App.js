@@ -12,7 +12,13 @@ import TutorProfilePage from './screens/profile_descriptin';
 import SkillDescriptionPage from './screens/skill-description';
 import SkillMatchingPage from './screens/skill-matching';
 import AddItemPage from './screens/add_item';
-
+import HistoryPage from './screens/history';
+import UserReviewPage from './screens/User_review';
+import GetStartedPage from './screens/main_screen';
+import LoginPage from './screens/login';
+import SignupPage from './screens/sign-up';
+import infoaddPage from './screens/sign-up2';
+import Myprofile from './screens/my_profile';
 
 // export default function App() {
 //   // State to hold the counter value
@@ -68,16 +74,23 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SettingsPage">
-        <Stack.Screen name="SettingsPage" component={SettingsPage} options={{ headerShown: false }} />
-        <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }}/>
+      <Stack.Navigator initialRouteName="GetStartedPage">
+        <Stack.Screen name="GetStartedPage" component={GetStartedPage} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
+        <Stack.Screen name="SignupPage" component={SignupPage} options={{ headerShown: false }} />
+        <Stack.Screen name="infoaddPage" component={infoaddPage} options={{ headerShown: false }} />
+        <Stack.Screen name="Myprofile" component={Myprofile} options={{ headerShown: false }} />
         <Stack.Screen name="RecommendationPage" component={RecommendationPage} options={{ headerShown: false }} />
         <Stack.Screen name="ItemDescriptionPage" component={ItemDescriptionPage} options={{ headerShown: false }} />
         <Stack.Screen name="SkillRecommendationPage" component={SkillRecommendationPage} options={{ headerShown: false }} />
         <Stack.Screen name="TutorProfilePage" component={TutorProfilePage} options={{ headerShown: false }} />
         <Stack.Screen name="SkillDescriptionPage" component={SkillDescriptionPage} options={{ headerShown: false }} />
         <Stack.Screen name="SkillMatchingPage" component={SkillMatchingPage} options={{ headerShown: false }} />
+        <Stack.Screen name="SettingsPage" component={SettingsPage} options={{ headerShown: false }} />
+        <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }}/>
         <Stack.Screen name="AddItemPage" component={AddItemPage} options={{ headerShown: false }} />
+        <Stack.Screen name="HistoryPage" component={HistoryPage} options={{ headerShown: false }} />
+        <Stack.Screen name="UserReviewPage" component={UserReviewPage} options={{ headerShown: false }} />
         
       </Stack.Navigator>
     </NavigationContainer>
