@@ -16,8 +16,8 @@ import HistoryPage from './screens/history';
 import UserReviewPage from './screens/User_review';
 import GetStartedPage from './screens/main_screen';
 import LoginPage from './screens/login';
-import SignupPage from './screens/sign-up';
-import infoaddPage from './screens/sign-up2';
+import CreateAccountPage from './screens/sign-up';
+import infoaddPage from './screens/sign-infoadd';
 import Myprofile from './screens/my_profile';
 
 // export default function App() {
@@ -77,7 +77,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="GetStartedPage">
         <Stack.Screen name="GetStartedPage" component={GetStartedPage} options={{ headerShown: false }} />
         <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
-        <Stack.Screen name="SignupPage" component={SignupPage} options={{ headerShown: false }} />
+        <Stack.Screen name="CreateAccountPage" component={CreateAccountPage} options={{ headerShown: false }} />
         <Stack.Screen name="infoaddPage" component={infoaddPage} options={{ headerShown: false }} />
         <Stack.Screen name="Myprofile" component={Myprofile} options={{ headerShown: false }} />
         <Stack.Screen name="RecommendationPage" component={RecommendationPage} options={{ headerShown: false }} />

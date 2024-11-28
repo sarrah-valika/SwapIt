@@ -1,127 +1,201 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-export default function SignupPage({navigation}) {
+export default function CreateAccountPage({ navigation }) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [Username, setUsername] = useState("");
+  const [Age, setAge] = useState("");
+  const [University, setUniversity] = useState("");
+
+  const handleCreateAccount = () => {
+    console.log("hey");
+    
+    if (!firstName || !lastName || !phone || !email || !password) {
+      console.log("hey2");
+      Alert.alert("Error", "Please fill out all fields.");
+      console.log("hey3");
+      return;
+    }
+    console.log("hey4");
+    
+    Alert.alert("Success", "Account created successfully!");
+    console.log("success");
+    
+    navigation.navigate("infoaddPage");
+  };
+
   return (
-    <View style={styles.container}>
-      {/* Blue top background with images */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backArrow}>{"<"}</Text>
-        </TouchableOpacity>
-        <View style={styles.titleContainer}>
-        <Text style={styles.title}>Signup</Text>
-      </View>
-        
-      </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+            {/* Logo Section */}
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("../assets/logo.png")} // Replace with your logo's actual path
+                style={styles.logo}
+              />
+            </View>
 
-      {/* White background for the form */}
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Sign Up</Text>
+            {/* Title and Subtitle */}
+            <Text style={styles.title}>Create account</Text>
+            <Text style={styles.subtitle}>
+              Create an account and enjoy a world of learning and connections.
+            </Text>
 
-        <TextInput style={styles.input} placeholder="First Name:" placeholderTextColor="#888" />
-        <TextInput style={styles.input} placeholder="Last Name:" placeholderTextColor="#888" />
-        <TextInput style={styles.input} placeholder="Email:" placeholderTextColor="#888" />
-        <TextInput style={styles.input} placeholder="University:" placeholderTextColor="#888" /> 
-        <TextInput style={styles.input} placeholder="Age:" placeholderTextColor="#888" keyboardType="numeric"/>
-        <TextInput style={styles.input} placeholder="Username:" placeholderTextColor="#888" />
-        <TextInput
-          style={styles.input}
-          placeholder="Password:"
-          placeholderTextColor="#BEBEBE"
-          secureTextEntry
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Re-write Password:"
-          placeholderTextColor="#BEBEBE"
-          secureTextEntry
-        />
+            {/* Form Section */}
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="First name"
+                value={firstName}
+                onChangeText={setFirstName}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Last name"
+                value={lastName}
+                onChangeText={setLastName}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Age"
+                value={Age}
+                onChangeText={setAge}
+                keyboardType="numeric"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="University"
+                value={University}
+                onChangeText={setUniversity}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                value={Username}
+                onChangeText={setUsername}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Re-write Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
 
-      <TouchableOpacity
-        style={styles.addSkillsButton}
-        onPress={() => navigation.navigate('infoaddPage')}
-        activeOpacity={0.5}
-      >
-        <Text style={styles.buttonText}>Add Skills</Text>
-      </TouchableOpacity>
-      </View>
+              <TouchableOpacity style={styles.button} onPress={handleCreateAccount}>
+                <Text style={styles.buttonText}>Add Skill</Text>
+              </TouchableOpacity>
+            </View>
 
-      {/* Blue bottom background */}
-      <View style={styles.bottomBackground} />
-    </View>
+            {/* Login Link */}
+            <TouchableOpacity onPress={() => navigation.navigate("LoginPage")}>
+              <Text style={styles.loginText}>
+                Already have an account? <Text style={styles.loginLink}>Login</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF8E1",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    backgroundColor: "#FFF8E1",
+  },
   container: {
     flex: 1,
-    backgroundColor: '#FFF8E1',
+    padding: 20,
+    justifyContent: "center",
   },
-  header: {
-    backgroundColor: '#335c71',
-    height: 68,
-    flexDirection: 'row', // Horizontal layout
-    alignItems: 'center',  // Center the items vertically
-    justifyContent: 'space-between', // Space between items
-    paddingHorizontal: 10,
+  logoContainer: {
+    alignItems: "center",
   },
-  titleContainer: {
-    flex: 1, // Allow title container to take up available space for left alignment
-    alignItems: 'flex-start', // Align main axis to the start (left)
-    marginLeft: 30, // Add some margin to the left
-  },
-  backArrow: {
-    fontSize: 20,
-    color: "#FFF",
-    marginRight: 10,
+  logo: {
+    width: 190, // Adjust to your logo size
+    height: 190,
+    resizeMode: "contain",
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+    textAlign: "left",
   },
-
+  subtitle: {
+    fontSize: 20,
+    color: "#555",
+    marginBottom: 30,
+    textAlign: "left",
+  },
   formContainer: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    width: '90%',
-    backgroundColor: '#F8E8A2',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    color: '#333',
-    marginVertical: 10,
-    textAlign: 'center',
-  },
-  addSkillsButton: {
-    backgroundColor: '#FFB343',
-    width: '90%',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderRadius: 25,
-    marginVertical: 10,
     marginBottom: 20,
   },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2F2F2F',
-    textAlign: 'center',
+  input: {
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 10,
+    padding: 15,
+    fontSize: 16,
+    marginBottom: 15,
   },
-  bottomBackground: {
-    backgroundColor: '#335c71',
-    height: '8%',
-    position: 'relative',
+  button: {
+    backgroundColor: "#FFB343",
+    borderRadius: 10,
+    padding: 15,
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#FFF",
+    fontWeight: "bold",
+  },
+  loginText: {
+    fontSize: 14,
+    color: "#555",
+    textAlign: "center",
+  },
+  loginLink: {
+    color: "#6D4C41",
+    fontWeight: "bold",
   },
 });

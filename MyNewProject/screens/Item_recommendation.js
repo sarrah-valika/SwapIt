@@ -35,6 +35,22 @@ export default function RecommendationPage() {
         "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
       image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
     },
+    {
+      title: "Casio Scientific Calculator",
+      name: "Aliha Zehra",
+      category: "Electronics",
+      description:
+        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
+      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
+    },
+    {
+      title: "Casio Scientific Calculator",
+      name: "Aliha Zehra",
+      category: "Electronics",
+      description:
+        "The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations. The Casio calculator is a versatile and user-friendly device designed for quick calculations, featuring a range of functions from basic arithmetic to advanced scientific operations.",
+      image: "https://www.shutterstock.com/shutterstock/photos/1044699274/display_1500/stock-photo-bangkok-thailand-march-casio-scientific-calculator-on-march-on-bangkok-thailand-1044699274.jpg", // Replace with a valid image URL
+    },
   ];
 
   const truncateDescription = (description) => {
@@ -55,17 +71,15 @@ export default function RecommendationPage() {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backArrow}>{"<"}</Text>
-          </TouchableOpacity> */}
-          <Text style={styles.headerTitle}>Item Dashboard</Text>
           <TouchableOpacity
-            onPress={() => setMenuVisible(true)} // Open the menu
+            onPress={() => setMenuVisible(true)}
             style={styles.menuIconContainer}
           >
             <Icon name="bars" size={25} color="#FFF" />
           </TouchableOpacity>
+          <Text style={styles.headerTitle}>Skill Dashboard</Text>
         </View>
+
 
         {/* Search Bar */}
         <View style={styles.searchContainer}>
@@ -209,27 +223,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8E1",
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 15,
-    backgroundColor: "#335c67", 
-  },
+  flexDirection: "row", // Align items horizontally
+  alignItems: "center", // Center items vertically
+  justifyContent: "flex-start", // Align items to the start (left)
+  padding: 15,
+  backgroundColor: "#335c67",
+},
+menuIconContainer: {
+  marginRight: 15, // Add some space between the icon and the heading
+},
+headerTitle: {
+  fontSize: 18,
+  color: "#FFF",
+  fontWeight: "bold",
+},
+
   backArrow: {
     fontSize: 20,
     color: "#FFF",
     marginRight: 10,
   },
-  headerTitle: {
-    fontSize: 18,
-    color: "#FFF",
-    fontWeight: "bold",
-    marginLeft: 10, 
-  },
   
-  menuIconContainer: {
-    marginLeft: 160,
-  },
   title: {
     color: "#FFFFFF",
     fontSize: 24,

@@ -60,7 +60,7 @@ export default function infoaddPage({ navigation }) {
         />
         <View style={styles.portfolioContainer}>
           <TouchableOpacity onPress={handlePortfolioSelect} style={styles.portfolioButton}>
-            <Text style={styles.portfolioButtonText}>Select Portfolio (PDF)</Text>
+            <Text style={styles.portfolioButtonText}>Upload Portfolio (PDF)</Text>
           </TouchableOpacity>
           {portfolioFileName ? <Text>Selected File: {portfolioFileName}</Text> : null}
         </View>

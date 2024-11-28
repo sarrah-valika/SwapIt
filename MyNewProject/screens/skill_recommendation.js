@@ -60,17 +60,15 @@ const getMenuItemStyle = (item) => {
         <ScrollView>
           {/* Header */}
           <View style={styles.header}>
-            {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.backArrow}>{"<"}</Text>
-            </TouchableOpacity> */}
-            <Text style={styles.headerTitle}>Skill Dashboard</Text>
             <TouchableOpacity
               onPress={() => setMenuVisible(true)}
               style={styles.menuIconContainer}
             >
               <Icon name="bars" size={25} color="#FFF" />
             </TouchableOpacity>
+            <Text style={styles.headerTitle}>Skill Dashboard</Text>
           </View>
+
 
           {/* Search Bar */}
           <View style={styles.searchContainer}>
@@ -92,10 +90,13 @@ const getMenuItemStyle = (item) => {
                     onPress={() => navigation.navigate("TutorProfilePage", { tutor })}
                   >
                     <Icon name="user-circle" size={50} color="#007B7F" />
+                    <View style={{ marginTop: 13 }}>
                     <Text style={styles.tutorSkills}>
-                      <Text style={styles.boldText}>Skills:</Text> {tutor.skills}
+                      <Text style={styles.boldText}>Skills:</Text>
+                      <Text style={styles.skillName}>{tutor.skills}</Text>
                     </Text>
-                    <View style={{ marginTop: 10 }}> {/* Add space between skills and name */}
+                    </View>
+                    <View > {/* Add space between skills and name */}
                       <Text style={styles.tutorName}>{tutor.name}</Text>
                     </View>
                     <Text style={styles.tutorLearn}>Learn: {tutor.learn}</Text>
@@ -228,14 +229,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8E1",
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 15,
-    backgroundColor: "#335c67",
-  },
+  flexDirection: "row", // Align items horizontally
+  alignItems: "center", // Center items vertically
+  justifyContent: "flex-start", // Align items to the start (left)
+  padding: 15,
+  backgroundColor: "#335c67",
+},
+menuIconContainer: {
+  marginRight: 15, // Add some space between the icon and the heading
+},
+headerTitle: {
+  fontSize: 18,
+  color: "#FFF",
+  fontWeight: "bold",
+},
   boldText: {
   fontWeight: "bold",
+  fontSize: 15,
 },
 
   backArrow: {
@@ -243,14 +253,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     marginRight: 10,
   },
-  headerTitle: {
-    fontSize: 18,
-    color: "#FFF",
-    fontWeight: "bold",
-  },
-  menuIconContainer: {
-    marginRight: 10,
-  },
+  
   skillIcon: {
   width: 50, // Adjust size as needed
   height: 50,
@@ -304,6 +307,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 10,
   },
+  skillName: {
+    fontWeight: "bold", // Make skill names bold
+    fontSize: 14, // Match size with "Skills:"
+    color: "#333", // Slightly darker color for distinction
+  },
   tutorCard: {
   alignItems: "center",
   backgroundColor: "#FFFFFF",
@@ -329,7 +337,7 @@ tutorName: {
   textAlign: "center",
 },
 tutorLearn: {
-  fontSize: 12,
+  fontSize: 15,
   color: "#555",
   textAlign: "center",
 },

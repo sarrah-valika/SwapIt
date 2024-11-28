@@ -26,7 +26,7 @@ const GetStartedPage = ({ navigation }) => {
         {/* Join Now Button */}
         <TouchableOpacity
           style={styles.joinButton}
-          onPress={() => navigation.navigate("SignupPage")} 
+          onPress={() => navigation.navigate("CreateAccountPage")} 
         >
           <Text style={styles.joinButtonText}>Join Now</Text>
         </TouchableOpacity>
@@ -52,23 +52,23 @@ const styles = StyleSheet.create({
   logo: {
     width: 370, // Adjust the size of the logo as needed
     height: 370,
-    marginBottom: 20,
+    // marginBottom: 10,
   },
   content: {
-    alignItems: "center",
+    alignItems: "left",
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 32,
+    fontSize: 62,
     fontWeight: "bold",
-    color: "#000",
-    marginBottom: 10,
-    textAlign: "center",
+    color: "#FFF",
+    marginBottom: 20,
+    textAlign: "left",
   },
   subtitle: {
-    fontSize: 16,
-    color: "#000",
-    textAlign: "center",
+    fontSize: 18,
+    color: "#FFF",
+    textAlign: "left",
     marginBottom: 30,
   },
   joinButton: {
@@ -82,10 +82,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFF",
     fontWeight: "bold",
+    textAlign: "center",
   },
   loginText: {
-    fontSize: 14,
-    color: "#000",
+    fontSize: 17,
+    color: "#FFF",
+    textAlign: "center",
   },
   loginLink: {
     color: "#FFB343",
