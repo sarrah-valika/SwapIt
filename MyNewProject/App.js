@@ -18,6 +18,7 @@ import GetStartedPage from './screens/main_screen';
 import LoginPage from './screens/login';
 import CreateAccountPage from './screens/sign-up';
 import infoaddPage from './screens/sign-infoadd';
+import Editprofile from './screens/edit_profile';
 import Myprofile from './screens/my_profile';
 
 // export default function App() {
@@ -80,6 +81,7 @@ export default function App() {
         <Stack.Screen name="CreateAccountPage" component={CreateAccountPage} options={{ headerShown: false }} />
         <Stack.Screen name="infoaddPage" component={infoaddPage} options={{ headerShown: false }} />
         <Stack.Screen name="Myprofile" component={Myprofile} options={{ headerShown: false }} />
+        <Stack.Screen name="Editprofile" component={Editprofile} options={{ headerShown: false }} />
         <Stack.Screen name="RecommendationPage" component={RecommendationPage} options={{ headerShown: false }} />
         <Stack.Screen name="ItemDescriptionPage" component={ItemDescriptionPage} options={{ headerShown: false }} />
         <Stack.Screen name="SkillRecommendationPage" component={SkillRecommendationPage} options={{ headerShown: false }} />

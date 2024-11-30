@@ -288,7 +288,9 @@ headerTitle: {
   //   height: 30,
   // },
   contentContainer: {
-    padding: 20,
+    padding: 18,
+    // flexDirection: 'column',
+
   },
   sectionTitle: {
     fontSize: 18,
@@ -315,10 +317,10 @@ headerTitle: {
   tutorCard: {
   alignItems: "center",
   backgroundColor: "#FFFFFF",
-  padding: 30,
+  padding: 15,
   borderRadius: 10,
-  width: "46%",
-  marginBottom: 20,
+  width: "100%",
+  marginBottom: 12,
   shadowColor: "#000",
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.1,

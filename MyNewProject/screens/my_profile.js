@@ -1,73 +1,105 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Ionicons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons"; // Import the icon set
 
-const Myprofile = ({ navigation }) => {
+export default function Myprofile() {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>{"<"}</Text>
-        </TouchableOpacity>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>My Profile</Text>
-        </View>
-        {/* <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-          <Ionicons name="menu" size={32} color="white" />
-        </TouchableOpacity> */}
-      </View>
-
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Profile Section */}
-        <View style={styles.profileSection}>
-          <Icon name="user-circle" size={70} color="#000" style={styles.profileIcon} />
-          <Text style={styles.profileTitle}>My Profile</Text>
-          {/* hardcoded */}
-          <Text style={styles.profileName}>Ahmed Zohaib</Text>  
-          
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>My Profile</Text>
         </View>
 
-        {/* Input Fields */}
-        <View style={styles.form}>
-          <TextInput style={styles.input} placeholder="Age:" placeholderTextColor="#000" />
-          <TextInput style={styles.input} placeholder="Email:" placeholderTextColor="#000" />
-          <TextInput style={styles.input} placeholder="University:" placeholderTextColor="#000" />
-          <TextInput
-            style={styles.inputLarge}
-            placeholder="Skills You Have:"
-            placeholderTextColor="#000"
-            numberOfLines={4}
-            multiline={true}
-          />
-          <TextInput
-            style={styles.inputLarge}
-            placeholder="Skills You Want To Learn:"
-            placeholderTextColor="#000"
-            numberOfLines={4}
-            multiline={true}
-          />
-          <TextInput style={styles.input} placeholder="Username:" placeholderTextColor="#000" />
-          <TextInput
-            style={styles.input}
-            placeholder="Password:"
-            placeholderTextColor="#000"
-            secureTextEntry={true}
-          />
-          <TextInput style={styles.input} placeholder="Availability:" placeholderTextColor="#000" />
-        </View>
+        {/* Scrollable Content */}
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {/* Profile Card */}
+          <View style={styles.profileCard}>
+          <View style={styles.profileImageContainer}>
+                <Ionicons name="person-circle" size={100} color="#777" style={styles.profileIcon} />
+                </View>
+             {/* Pencil Icon for Edit */}
+                <TouchableOpacity
+                    style={styles.editIcon}
+                    onPress={() => navigation.navigate("Editprofile")}
+                >
+                    <Ionicons name="pencil" size={18} color="#FFF" />
+                </TouchableOpacity>
+            <Text style={styles.profileName}>Ahmed Zohaib</Text>
+            <View style={styles.profileDetailsContainer}>
+                <Text style={styles.profileDetails}>Habib University</Text>
+                <Text style={styles.profileAvailability}>Availability: Friday, Saturday</Text>
+            </View>
 
-        {/* Save Button */}
-        <TouchableOpacity style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Save</Text>
-        </TouchableOpacity>
-      </ScrollView>
+            {/* Rating */}
+            <View style={styles.ratingContainer}>
+              {Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <Image
+                    key={index}
+                    // source={require("../assets/star-outline.png")} // Replace with your star icon asset
+                    style={styles.ratingIcon}
+                  />
+                ))}
+            </View>
+          </View>
 
-      {/* Bottom Navigation */}
-      {/* Footer */}
-      <View style={styles.footer}>
+          {/* Skills Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>My Skills:</Text>
+            <Text style={styles.sectionContent}>• Web Developer</Text>
+            <Text style={styles.sectionContent}>• Figma</Text>
+          </View>
+
+          {/* Learning Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Looking to Learn:</Text>
+            <Text style={styles.sectionContent}>• Guitar</Text>
+            <Text style={styles.sectionContent}>• Piano</Text>
+          </View>
+
+          {/* Reviews Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Reviews:</Text>
+            <Text style={styles.sectionContent}>
+              Really enjoyed studying, in-depth teaching.
+            </Text>
+          </View>
+
+          {/* Buttons */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => navigation.navigate("infoaddPage")} // Adjust navigation target
+            >
+              <Text style={styles.buttonText}>Add Skill</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => navigation.navigate("AddItemPage")} // Adjust navigation target
+            >
+              <Text style={styles.buttonText}>Add Item</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+
+        {/* Footer */}
+        <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
             onPress={() => navigation.navigate("SkillRecommendationPage")}
@@ -97,129 +129,158 @@ const Myprofile = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate("Myprofile")}
+            onPress={() => navigation.navigate("Editprofile")}
           >
             <Image
               source={require("../assets/profile.png")}
               style={styles.footerIcon}
             />
           </TouchableOpacity>
-      </View>
-    </View>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E5E5E5',
+    backgroundColor: "#FFF8E1",
   },
   header: {
-    backgroundColor: '#335c71',
-    height: 68,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: "#335c67",
   },
+  editIcon: {
+  position: "absolute",
+  top: 10,
+  right: 10,
+  backgroundColor: "#335c67",
+  padding: 6,
+  borderRadius: 12,
+  elevation: 3,
+},
+
   backArrow: {
     fontSize: 20,
     color: "#FFF",
     marginRight: 10,
   },
-  titleContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-    marginLeft: 30,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  profileSection: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  profileIcon: {
-    marginBottom: 10,
-  },
-  profileTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#000',
-    textAlign: 'center',
-  },
-  profileName: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 5,
-  },
-  form: {
-    width: '90%',
-    marginTop: 20,
-    alignSelf: 'center',
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#CCC',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: '#FFFF99',
-    color: '#000',
-    fontSize: 16,
-  },
-  inputLarge: {
-    height: 80,
-    borderWidth: 1,
-    borderColor: '#CCC',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: '#FFFF99',
-    color: '#000',
-    fontSize: 16,
-    textAlignVertical: 'top',
-  },
-  saveButton: {
-    width: '90%',
-    height: 50,
-    backgroundColor: '#FFD700',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 20,
-    alignSelf: 'center',
-  },
-  saveButtonText: {
+  headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+    color: "#FFF",
+    fontWeight: "bold",
   },
   scrollContent: {
-    paddingBottom: 100, // Prevent content from overlapping with footer
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 200,
+  },
+  profileCard: {
+    alignItems: "center",
+    backgroundColor: "#FFF8E1",
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  profileImageContainer: {
+    marginBottom: 10,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  profileName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "#333",
+  },
+  profileDetails: {
+    fontSize: 14,
+    color: "#777",
+    marginBottom: 15,
+  },
+  profileDetailsContainer: {
+  alignItems: "center",
+  marginBottom: 15,
+},
+profileAvailability: {
+  fontSize: 14,
+  color: "#777",
+  marginTop: 5,
+},
+
+  ratingContainer: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  ratingIcon: {
+    width: 20,
+    height: 20,
+    marginHorizontal: 2,
+  },
+  section: {
+    backgroundColor: "#FFF8E1",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "#333",
+  },
+  sectionContent: {
+    fontSize: 14,
+    color: "#555",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  actionButton: {
+    flex: 1,
+    backgroundColor: "#FFB343",
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginHorizontal: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-    padding: 10,
-    backgroundColor: '#335c71',
-    position: 'absolute',
+    height: 70,
+    backgroundColor: "#335c67",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
     bottom: 0,
-    height: 60,
+    left: 0,
+    right: 0,
+  },
+  footerButton: {
+    alignItems: "center",
   },
   footerIcon: {
     width: 30,
     height: 30,
-    tintColor: '#FFFFFF',
+    tintColor: "#FFF",
   },
 });
-
-export default Myprofile;

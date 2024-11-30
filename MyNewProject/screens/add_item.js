@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { Picker } from "@react-native-picker/picker";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 export default function AddItemPage() {
@@ -33,27 +32,18 @@ export default function AddItemPage() {
       return;
     }
 
-    // If all fields are filled, proceed to save
     alert("Item Uploaded!");
   };
 
   const handleUploadImage = () => {
-    console.log("done");
     Alert.alert("Upload Image", "Choose an option", [
       {
         text: "Take Photo",
         onPress: () => {
           launchCamera(
-            {
-              mediaType: "photo",
-              saveToPhotos: true,
-            },
+            { mediaType: "photo", saveToPhotos: true },
             (response) => {
-              if (response.didCancel) {
-                console.log("User canceled image picker");
-              } else if (response.errorMessage) {
-                console.error("Image picker error:", response.errorMessage);
-              } else {
+              if (!response.didCancel && !response.errorMessage) {
                 setImageUri(response.assets[0].uri);
               }
             }
@@ -64,29 +54,17 @@ export default function AddItemPage() {
         text: "Choose Photo",
         onPress: () => {
           launchImageLibrary(
-            {
-              mediaType: "photo",
-            },
+            { mediaType: "photo" },
             (response) => {
-              if (response.didCancel) {
-                console.log("User canceled image picker");
-              } else if (response.errorMessage) {
-                console.error("Image picker error:", response.errorMessage);
-              } else {
+              if (!response.didCancel && !response.errorMessage) {
                 setImageUri(response.assets[0].uri);
               }
             }
           );
         },
       },
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      
-      
+      { text: "Cancel", style: "cancel" },
     ]);
-    console.log("finish");
   };
 
   return (
@@ -120,20 +98,12 @@ export default function AddItemPage() {
           />
 
           <Text style={styles.label}>Category</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={category}
-              onValueChange={(itemValue) => setCategory(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Select a category" value="" />
-              <Picker.Item label="Electronics" value="Electronics" />
-              <Picker.Item label="Books" value="Books" />
-              <Picker.Item label="Clothing" value="Clothing" />
-              <Picker.Item label="Furniture" value="Furniture" />
-              <Picker.Item label="Others" value="Others" />
-            </Picker>
-          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Select a Category"
+            value={category}
+            onChangeText={setCategory}
+          />
 
           <Text style={styles.label}>Condition</Text>
           <TextInput
@@ -145,23 +115,29 @@ export default function AddItemPage() {
           />
 
           <Text style={styles.label}>Upload Image</Text>
-          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadImage}>
+          <TouchableOpacity
+            style={styles.uploadButton}
+            onPress={handleUploadImage}
+          >
             {imageUri ? (
               <Image source={{ uri: imageUri }} style={styles.uploadedImage} />
             ) : (
               <Image
-                source={require("../assets/upload.png")} // Replace with your asset path
+                source={require("../assets/upload.png")}
                 style={styles.uploadIcon}
               />
             )}
           </TouchableOpacity>
-        </ScrollView>
 
-        {/* Save Button */}
-        <View style={styles.footer}>
+          {/* Save Button */}
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
+        </ScrollView>
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© 2024 MyApp. All rights reserved.</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -208,17 +184,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: "#CCC",
-    borderRadius: 5,
-    marginBottom: 20,
-    backgroundColor: "#FFF8E1",
-  },
-  picker: {
-    height: 50,
-    width: "100%",
-  },
   uploadButton: {
     backgroundColor: "#FFF8E1",
     borderWidth: 1,
@@ -240,21 +205,31 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 5,
   },
-  footer: {
-    padding: 15,
-    backgroundColor: "#FFF8E1",
-    borderTopWidth: 1,
-    borderColor: "#CCC",
-  },
   saveButton: {
     backgroundColor: "#FFB343",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
+    marginTop: 10,
   },
   saveButtonText: {
     color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  footer: {
+    height: 70,
+    backgroundColor: "#335c67",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  footerText: {
+    color: "#FFFFFF",
+    fontSize: 14,
   },
 });

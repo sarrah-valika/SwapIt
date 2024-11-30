@@ -1,166 +1,288 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as DocumentPicker from 'expo-document-picker';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as DocumentPicker from "expo-document-picker";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-export default function infoaddPage({ navigation }) {
-  const [portfolioFileName, setPortfolioFileName] = useState('');
+export default function infoaddPage() {
+  const navigation = useNavigation();
+
+  const [portfolioFileName, setPortfolioFileName] = useState("");
+  const [dropdown1Visible, setDropdown1Visible] = useState(false);
+  const [dropdown2Visible, setDropdown2Visible] = useState(false);
+  const [selectedCategory1, setSelectedCategory1] = useState("");
+  const [selectedCategory2, setSelectedCategory2] = useState("");
+  const categories = ["Programming", "Design", "Marketing", "Writing", "Data Science"];
 
   const handlePortfolioSelect = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: 'application/pdf', // Limit to PDF files
+        type: "application/pdf", // Limit to PDF files
       });
 
-      if (result.type === 'success') {
+      if (result.type === "success") {
         setPortfolioFileName(result.name); // Store file name
       } else {
-        Alert.alert('Cancelled', 'File selection was cancelled.');
+        Alert.alert("Cancelled", "File selection was cancelled.");
       }
     } catch (err) {
-      Alert.alert('Error', 'Failed to pick a file: ' + err.message);
+      Alert.alert("Error", "Failed to pick a file: " + err.message);
     }
-  };
-
-  const handleSubmit = () => {
-    if (!portfolioFileName) {
-      Alert.alert('Error', 'Please select a PDF file for your portfolio.');
-      return;
-    }
-    console.log('Uploading file:', portfolioFileName);
-    navigation.navigate('itemreview');
   };
 
   return (
-    <View style={styles.container}>
-      {/* Top Blue Header with Images */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>{"<"}</Text>
-        </TouchableOpacity>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Skills Details</Text>
-        </View>
-        {/* <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-          <Ionicons name="menu" size={32} color="white" />
-        </TouchableOpacity> */}
-      </View>
-
-      {/* Form Section */}
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Skills You Have:"
-          placeholderTextColor="#BEBEBE"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Skills You Want To Learn:"
-          placeholderTextColor="#BEBEBE"
-        />
-        <View style={styles.portfolioContainer}>
-          <TouchableOpacity onPress={handlePortfolioSelect} style={styles.portfolioButton}>
-            <Text style={styles.portfolioButtonText}>Upload Portfolio (PDF)</Text>
           </TouchableOpacity>
-          {portfolioFileName ? <Text>Selected File: {portfolioFileName}</Text> : null}
+          <Text style={styles.headerTitle}>Add Skills</Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Sign-Up</Text>
-        </TouchableOpacity>
-      </View>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <Text style={styles.label}>Skills You Have:</Text>
+          <TextInput style={styles.input} placeholder="Enter your skills" multiline />
 
-      {/* Bottom Blue Background */}
-      <View style={styles.footer} />
-    </View>
+          <Text style={styles.label}>Category:</Text>
+          <TouchableOpacity
+            style={styles.dropdown}
+            onPress={() => setDropdown1Visible(!dropdown1Visible)}
+          >
+            <Text style={styles.dropdownText}>
+              {selectedCategory1 || "Select a category"}
+            </Text>
+          </TouchableOpacity>
+          {dropdown1Visible && (
+            <View style={styles.dropdownList}>
+              {categories.map((category, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    setSelectedCategory1(category);
+                    setDropdown1Visible(false); // Hide dropdown after selecting
+                  }}
+                >
+                  <Text style={styles.dropdownItemText}>{category}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          <Text style={styles.label}>Skills You Want to Learn:</Text>
+          <TextInput style={styles.input} placeholder="Enter skills you want to learn" multiline />
+
+          <Text style={styles.label}>Category:</Text>
+          <TouchableOpacity
+            style={styles.dropdown}
+            onPress={() => setDropdown2Visible(!dropdown2Visible)}
+          >
+            <Text style={styles.dropdownText}>
+              {selectedCategory2 || "Select a category"}
+            </Text>
+          </TouchableOpacity>
+          {dropdown2Visible && (
+            <View style={styles.dropdownList}>
+              {categories.map((category, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    setSelectedCategory2(category);
+                    setDropdown2Visible(false); // Hide dropdown after selecting
+                  }}
+                >
+                  <Text style={styles.dropdownItemText}>{category}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          <View style={styles.portfolioContainer}>
+            <TouchableOpacity
+              onPress={handlePortfolioSelect}
+              style={styles.uploadButton}
+            >
+              <Text style={styles.uploadButtonText}>Select PDF</Text>
+            </TouchableOpacity>
+            {portfolioFileName ? (
+              <Text style={styles.selectedFileText}>Selected File: {portfolioFileName}</Text>
+            ) : null}
+          </View>
+        </ScrollView>
+
+        {/* Footer
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("SkillRecommendationPage")}
+          >
+            <Image
+              source={require("../assets/skills.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("RecommendationPage")}
+          >
+            <Image
+              source={require("../assets/items.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("MessagingPage")}
+          >
+            <Image
+              source={require("../assets/messages.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate("Myprofile")}
+          >
+            <Image
+              source={require("../assets/profile.png")}
+              style={styles.footerIcon}
+            />
+          </TouchableOpacity>
+        </View> */}
+        {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>© 2024 MyApp. All rights reserved.</Text>
+      </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#FFF8E1",
   },
   header: {
-    backgroundColor: '#335c71',
-    height: 68,
-    flexDirection: 'row', // Horizontal layout
-    alignItems: 'center',  // Center the items vertically
-    justifyContent: 'space-between', // Space between items
-    paddingHorizontal: 10,
-  },
-  titleContainer: {
-    flex: 1, // Allow title container to take up available space for left alignment
-    alignItems: 'flex-start', // Align main axis to the start (left)
-    marginLeft: 30, // Add some margin to the left
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: "#335c67",
   },
   backArrow: {
     fontSize: 20,
     color: "#FFF",
     marginRight: 10,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+  headerTitle: {
+    fontSize: 18,
+    color: "#FFF",
+    fontWeight: "bold",
   },
-  formContainer: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: 20,
-    alignSelf: 'center',
-    backgroundColor: '#e09f3e',
-    paddingVertical: 8,
+  scrollContent: {
+    paddingTop: 20,
     paddingHorizontal: 20,
-    borderRadius: 8,
+    paddingBottom: 200,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#007B7F",
+    marginBottom: 5,
   },
   input: {
-    backgroundColor: '#FFFFE0', // Pale yellow
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    marginBottom: 20,
+    backgroundColor: "#FFF",
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCC",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+    fontSize: 14,
+    color: "#333",
   },
-  button: {
-    backgroundColor: '#fcae1e', // Golden yellow
-    paddingVertical: 12,
-    borderRadius: 22,
-    alignItems: 'center',
-    marginTop: 20,
+  dropdown: {
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
   },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000', 
+  dropdownText: {
+    fontSize: 14,
+    color: "#333",
   },
-  footer: {
-    backgroundColor: '#335c71',
-    height: '8%',
-    position: 'relative',
+  dropdownList: {
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 5,
+    position: "absolute",
+    zIndex: 1,
+    width: "100%",
+    marginTop: 5,
+  },
+  dropdownItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#EEE",
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: "#333",
   },
   portfolioContainer: {
-    marginBottom: 20,
+    marginTop: 20,
   },
-  portfolioButton: {
-    backgroundColor: '#FFFFE0',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
+  uploadButton: {
+    backgroundColor: "#FFB343",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    marginTop: 10,
   },
-  portfolioButtonText: {
+  uploadButtonText: {
+    color: "#FFF",
     fontSize: 16,
+    fontWeight: "bold",
+  },
+  selectedFileText: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 10,
+  },
+  footer: {
+    height: 70,
+    backgroundColor: "#335c67",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  footerButton: {
+    alignItems: "center",
+  },
+  footerIcon: {
+    width: 30,
+    height: 30,
+    tintColor: "#FFFFFF",
+  },
+  footerText: {
+    color: "#FFFFFF",
+    fontSize: 14,
   },
 });

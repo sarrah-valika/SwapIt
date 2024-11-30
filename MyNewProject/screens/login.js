@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Ensure this is installed
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -23,69 +23,59 @@ const LoginPage = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Login</Text>
+        <Text style={styles.headerText}>Welcome to SwapIt!</Text>
       </View>
 
       {/* Main Content */}
       <View style={styles.mainContent}>
         {/* Logo */}
-        <View style={styles.logoContainer}>
-          <Image
-            source={require("../assets/logo.png")} // Replace with your logo file path
-            style={styles.logo}
-          />
-          {/* <Text style={styles.logoText}>SwapIt</Text> */}
-        </View>
+        <Image
+          source={require("../assets/logo.png")} // Replace with your logo's actual path
+          style={styles.logo}
+        />
 
-        {/* Welcome Text */}
-        <Text style={styles.welcomeText}>Welcome to SwapIt!</Text>
-
-        {/* Username Input */}
-        <Text style={styles.label}>Username:</Text>
+        {/* Login Form */}
+        <Text style={styles.loginTitle}>Login</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your username"
+          placeholder="Username"
           value={username}
           onChangeText={setUsername}
         />
-
-        {/* Password Input */}
-        <Text style={styles.label}>Password:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your password"
+          placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-
-        {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Login</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-
-        {/* Sign-Up Redirect */}
-        <Text style={styles.signUpText}>
-          Not a member?{" "}
+        <Text style={styles.signupText}>
+            Not a member?{' '}
           <Text
-            style={styles.signUpLink}
-            onPress={() => navigation.navigate("SignUpPage")}
+                  style={styles.signupLink}
+                  onPress={() => navigation.navigate('CreateAccountPage')}
           >
-            Sign up now!
+                  Sign up!
           </Text>
-        </Text>
+          </Text>
       </View>
 
+      
       {/* Footer */}
       <View style={styles.footer}>
-        
+        <Text style={styles.footerText}>© 2024 MyApp. All rights reserved.</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
+
+export default LoginPage;
 
 const styles = StyleSheet.create({
   container: {
@@ -93,89 +83,74 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8E1",
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
     backgroundColor: "#335c67",
+    padding: 15,
+    alignItems: "center",
   },
-  headerTitle: {
-    fontSize: 18,
-    color: "#FFF",
+  headerText: {
+    color: "#FFFFFF",
+    fontSize: 20,
     fontWeight: "bold",
   },
   mainContent: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
-  logoContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
   logo: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
+    marginBottom: 0,
     resizeMode: "contain",
   },
-  logoText: {
+  loginTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#335c67",
-  },
-  welcomeText: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#335c67",
-    marginBottom: 30,
-  },
-  label: {
-    fontSize: 16,
-    color: "#335c67",
-    alignSelf: "flex-start",
-    marginBottom: 5,
-    marginLeft: 20,
+    marginBottom: 20,
+    // backgroundColor: "#F5F5F5",
   },
   input: {
-    width: "90%",
-    backgroundColor: "#FFF",
+    width: "100%",
     borderWidth: 1,
-    borderColor: "#DDD",
+    borderColor: "#CCC",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 20,
+    marginBottom: 15,
   },
-  loginButton: {
+  button: {
     backgroundColor: "#FFB343",
-    width: "90%",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
-    marginTop: 20,
+    width: "100%",
   },
-  loginButtonText: {
-    color: "#FFF",
+  buttonText: {
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: "bold",
   },
-  signUpText: {
-    fontSize: 14,
-    color: "#6B6B6B",
-    marginTop: 15,
-  },
-  signUpLink: {
-    color: "#FFB343",
-    fontWeight: "bold",
-  },
+  signupText: {
+   marginTop: 20,
+  color: '#335c67',
+  fontWeight: 'bold',
+ },
+ signupLink: {
+   color: '#FFB343',
+   fontWeight: 'bold',
+ },
   footer: {
+    height: 70,
+    backgroundColor: "#335c67",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: 70,
-    backgroundColor: "#335c67",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-
+  footerText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+  },
 });
-
-export default LoginPage;

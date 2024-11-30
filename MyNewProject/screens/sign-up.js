@@ -27,11 +27,9 @@ export default function CreateAccountPage({ navigation }) {
     if (!firstName || !lastName || !phone || !email || !password) {
       console.log("hey2");
       Alert.alert("Error", "Please fill out all fields.");
-      console.log("hey3");
+      console.log("hey");
       return;
     }
-    console.log("hey4");
-    
     Alert.alert("Success", "Account created successfully!");
     console.log("success");
     
@@ -154,14 +152,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 10,
     textAlign: "left",
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 16,
     color: "#555",
     marginBottom: 30,
     textAlign: "left",
