@@ -77,7 +77,7 @@ export default function RecommendationPage() {
           >
             <Icon name="bars" size={25} color="#FFF" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Skill Dashboard</Text>
+          <Text style={styles.headerTitle}>Item Dashboard</Text>
         </View>
 
 

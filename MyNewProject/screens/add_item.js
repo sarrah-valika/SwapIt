@@ -12,6 +12,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import DropDownPicker from "react-native-dropdown-picker"; 
 
 export default function AddItemPage() {
   const navigation = useNavigation();
@@ -20,7 +21,13 @@ export default function AddItemPage() {
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
   const [imageUri, setImageUri] = useState("");
+  const [itemCategory, setItemCategory] = useState(false);
 
+  const categoryItems = [
+    { label: "Programming", value: "Programming" },
+    { label: "Design", value: "Design" },
+    { label: "Marketing", value: "Marketing" },
+  ];
   const handleSave = () => {
     if (!name || !description || !category || !condition || !imageUri) {
       alert("Please fill out all fields before saving.");
@@ -97,14 +104,17 @@ export default function AddItemPage() {
             multiline
           />
 
-          <Text style={styles.label}>Category</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Select a Category"
-            value={category}
-            onChangeText={setCategory}
+        <Text style={styles.label}>Category:</Text>
+          <DropDownPicker
+            open={itemCategory}
+            value={itemCategory}
+            items={categoryItems}
+            setOpen={setItemCategory}
+            setValue={setItemCategory}
+            setItems={() => {}}
+            style={styles.dropdown}
+            placeholder="Select a category"
           />
-
           <Text style={styles.label}>Condition</Text>
           <TextInput
             style={styles.input}
@@ -148,6 +158,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF8E1",
+  },
+  dropdown: {
+    marginBottom: 20,
+    borderRadius: 5,
+    backgroundColor: '#FFF8E1',
+    borderColor: "#CCC",
+    height: 50,
   },
   header: {
     flexDirection: "row",

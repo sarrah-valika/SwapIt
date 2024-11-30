@@ -11,16 +11,28 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import * as DocumentPicker from "expo-document-picker";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function infoaddPage() {
   const navigation = useNavigation();
 
   const [portfolioFileName, setPortfolioFileName] = useState("");
-  const [dropdown1Visible, setDropdown1Visible] = useState(false);
-  const [dropdown2Visible, setDropdown2Visible] = useState(false);
-  const [selectedCategory1, setSelectedCategory1] = useState("");
-  const [selectedCategory2, setSelectedCategory2] = useState("");
-  const categories = ["Programming", "Design", "Marketing", "Writing", "Data Science"];
+  // const [dropdown1Visible, setDropdown1Visible] = useState(false);
+  // const [dropdown2Visible, setDropdown2Visible] = useState(false);
+  // const [selectedCategory1, setSelectedCategory1] = useState("");
+  // const [selectedCategory2, setSelectedCategory2] = useState("");
+  const [isSkillsCategoryOpen, setIsSkillsCategoryOpen] = useState(false);
+  const [isLearningCategoryOpen, setIsLearningCategoryOpen] = useState(false);
+  const [skillsCategory, setSkillsCategory] = useState(null);
+  const [learningCategory, setLearningCategory] = useState(null);
+
+  // Dropdown items
+  const categoryItems = [
+    { label: "Programming", value: "Programming" },
+    { label: "Design", value: "Design" },
+    { label: "Marketing", value: "Marketing" },
+  ];
+  
 
   const handlePortfolioSelect = async () => {
     try {
@@ -54,59 +66,32 @@ export default function infoaddPage() {
           <TextInput style={styles.input} placeholder="Enter your skills" multiline />
 
           <Text style={styles.label}>Category:</Text>
-          <TouchableOpacity
+          <DropDownPicker
+            open={isSkillsCategoryOpen}
+            value={skillsCategory}
+            items={categoryItems}
+            setOpen={setIsSkillsCategoryOpen}
+            setValue={setSkillsCategory}
+            setItems={() => {}}
             style={styles.dropdown}
-            onPress={() => setDropdown1Visible(!dropdown1Visible)}
-          >
-            <Text style={styles.dropdownText}>
-              {selectedCategory1 || "Select a category"}
-            </Text>
-          </TouchableOpacity>
-          {dropdown1Visible && (
-            <View style={styles.dropdownList}>
-              {categories.map((category, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedCategory1(category);
-                    setDropdown1Visible(false); // Hide dropdown after selecting
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{category}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
+            placeholder="Select a category"
+          />
+          
 
           <Text style={styles.label}>Skills You Want to Learn:</Text>
           <TextInput style={styles.input} placeholder="Enter skills you want to learn" multiline />
 
           <Text style={styles.label}>Category:</Text>
-          <TouchableOpacity
+          <DropDownPicker
+            open={isLearningCategoryOpen}
+            value={learningCategory}
+            items={categoryItems}
+            setOpen={setIsLearningCategoryOpen}
+            setValue={setLearningCategory}
+            setItems={() => {}}
             style={styles.dropdown}
-            onPress={() => setDropdown2Visible(!dropdown2Visible)}
-          >
-            <Text style={styles.dropdownText}>
-              {selectedCategory2 || "Select a category"}
-            </Text>
-          </TouchableOpacity>
-          {dropdown2Visible && (
-            <View style={styles.dropdownList}>
-              {categories.map((category, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedCategory2(category);
-                    setDropdown2Visible(false); // Hide dropdown after selecting
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{category}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
+            placeholder="Select a category"
+          />
 
           <View style={styles.portfolioContainer}>
             <TouchableOpacity
@@ -179,6 +164,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     backgroundColor: "#335c67",
+  },
+  dropdown: {
+    marginBottom: 20,
+    borderRadius: 5,
+    borderColor: "#CCC",
+    height: 50,
   },
   backArrow: {
     fontSize: 20,

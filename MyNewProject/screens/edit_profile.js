@@ -12,7 +12,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
+import DropDownPicker from "react-native-dropdown-picker"; // Import dropdown picker
 
 export default function EditProfile() {
   const navigation = useNavigation();
@@ -22,12 +22,23 @@ export default function EditProfile() {
   const [email, setEmail] = useState("");
   const [university, setUniversity] = useState("");
   const [skillsYouHave, setSkillsYouHave] = useState("");
-  const [skillsCategory, setSkillsCategory] = useState(""); // Category for "Skills You Have"
+  const [skillsCategory, setSkillsCategory] = useState(null);
   const [skillsYouWantToLearn, setSkillsYouWantToLearn] = useState("");
-  const [learningCategory, setLearningCategory] = useState(""); // Category for "Skills You Want To Learn"
+  const [learningCategory, setLearningCategory] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [availability, setAvailability] = useState("");
+
+  // State for dropdown open/close
+  const [isSkillsCategoryOpen, setIsSkillsCategoryOpen] = useState(false);
+  const [isLearningCategoryOpen, setIsLearningCategoryOpen] = useState(false);
+
+  // Dropdown items
+  const categoryItems = [
+    { label: "Programming", value: "Programming" },
+    { label: "Design", value: "Design" },
+    { label: "Marketing", value: "Marketing" },
+  ];
 
   const handleSave = () => {
     if (
@@ -105,17 +116,16 @@ export default function EditProfile() {
           />
 
           <Text style={styles.label}>Category:</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={skillsCategory}
-              onValueChange={(itemValue) => setSkillsCategory(itemValue)}
-            >
-              <Picker.Item label="Select a category" value="" />
-              <Picker.Item label="Programming" value="Programming" />
-              <Picker.Item label="Design" value="Design" />
-              <Picker.Item label="Marketing" value="Marketing" />
-            </Picker>
-          </View>
+          <DropDownPicker
+            open={isSkillsCategoryOpen}
+            value={skillsCategory}
+            items={categoryItems}
+            setOpen={setIsSkillsCategoryOpen}
+            setValue={setSkillsCategory}
+            setItems={() => {}}
+            style={styles.dropdown}
+            placeholder="Select a category"
+          />
 
           <Text style={styles.label}>Skills You Want To Learn:</Text>
           <TextInput
@@ -127,17 +137,16 @@ export default function EditProfile() {
           />
 
           <Text style={styles.label}>Category:</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={learningCategory}
-              onValueChange={(itemValue) => setLearningCategory(itemValue)}
-            >
-              <Picker.Item label="Select a category" value="" />
-              <Picker.Item label="Programming" value="Programming" />
-              <Picker.Item label="Design" value="Design" />
-              <Picker.Item label="Marketing" value="Marketing" />
-            </Picker>
-          </View>
+          <DropDownPicker
+            open={isLearningCategoryOpen}
+            value={learningCategory}
+            items={categoryItems}
+            setOpen={setIsLearningCategoryOpen}
+            setValue={setLearningCategory}
+            setItems={() => {}}
+            style={styles.dropdown}
+            placeholder="Select a category"
+          />
 
           <Text style={styles.label}>Username:</Text>
           <TextInput
@@ -218,12 +227,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF8E1",
   },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: "#CCC",
-    borderRadius: 5,
+  dropdown: {
     marginBottom: 20,
-    backgroundColor: "#FFF",
+    borderRadius: 5,
+    borderColor: "#CCC",
+    height: 50,
   },
   header: {
     flexDirection: "row",
