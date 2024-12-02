@@ -75,6 +75,7 @@ export default function infoaddPage() {
             setItems={() => {}}
             style={styles.dropdown}
             placeholder="Select a category"
+            listMode="SCROLLVIEW"
           />
           
 
@@ -91,6 +92,7 @@ export default function infoaddPage() {
             setItems={() => {}}
             style={styles.dropdown}
             placeholder="Select a category"
+            listMode="SCROLLVIEW"
           />
 
           <View style={styles.portfolioContainer}>

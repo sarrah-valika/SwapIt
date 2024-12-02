@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import DropDownPicker from "react-native-dropdown-picker"; 
+import * as ImagePicker from "expo-image-picker";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function AddItemPage() {
   const navigation = useNavigation();
@@ -21,57 +21,65 @@ export default function AddItemPage() {
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
   const [imageUri, setImageUri] = useState("");
-  const [itemCategory, setItemCategory] = useState(false);
-
+  const [isSkillsCategoryOpen, setIsSkillsCategoryOpen] = useState(false);
+  const [skillsCategory, setSkillsCategory] = useState(null);
   const categoryItems = [
     { label: "Programming", value: "Programming" },
     { label: "Design", value: "Design" },
     { label: "Marketing", value: "Marketing" },
   ];
+
   const handleSave = () => {
     if (!name || !description || !category || !condition || !imageUri) {
       alert("Please fill out all fields before saving.");
       return;
     }
-
     if (description.split(" ").length < 50) {
       alert("Description must be at least 50 words.");
       return;
     }
-
     alert("Item Uploaded!");
   };
 
-  const handleUploadImage = () => {
+  const handleUploadImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
     Alert.alert("Upload Image", "Choose an option", [
       {
         text: "Take Photo",
-        onPress: () => {
-          launchCamera(
-            { mediaType: "photo", saveToPhotos: true },
-            (response) => {
-              if (!response.didCancel && !response.errorMessage) {
-                setImageUri(response.assets[0].uri);
-              }
-            }
-          );
+        onPress: async () => {
+          const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+          });
+          if (!result.canceled) {
+            setImageUri(result.assets[0].uri);
+          }
         },
       },
       {
         text: "Choose Photo",
-        onPress: () => {
-          launchImageLibrary(
-            { mediaType: "photo" },
-            (response) => {
-              if (!response.didCancel && !response.errorMessage) {
-                setImageUri(response.assets[0].uri);
-              }
-            }
-          );
+        onPress: async () => {
+          const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+          });
+          if (!result.canceled) {
+            setImageUri(result.assets[0].uri);
+          }
         },
       },
       { text: "Cancel", style: "cancel" },
     ]);
+  };
+
+  const removeImage = () => {
+    setImageUri("");
   };
 
   return (
@@ -84,7 +92,6 @@ export default function AddItemPage() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Add Items</Text>
         </View>
-
         {/* Form Content */}
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.label}>Name</Text>
@@ -94,7 +101,6 @@ export default function AddItemPage() {
             value={name}
             onChangeText={setName}
           />
-
           <Text style={styles.label}>Item Description</Text>
           <TextInput
             style={styles.input}
@@ -103,17 +109,17 @@ export default function AddItemPage() {
             onChangeText={setDescription}
             multiline
           />
-
-        <Text style={styles.label}>Category:</Text>
+          <Text style={styles.label}>Category:</Text>
           <DropDownPicker
-            open={itemCategory}
-            value={itemCategory}
+            open={isSkillsCategoryOpen}
+            value={skillsCategory}
             items={categoryItems}
-            setOpen={setItemCategory}
-            setValue={setItemCategory}
+            setOpen={setIsSkillsCategoryOpen}
+            setValue={setSkillsCategory}
             setItems={() => {}}
             style={styles.dropdown}
             placeholder="Select a category"
+            listMode="SCROLLVIEW"
           />
           <Text style={styles.label}>Condition</Text>
           <TextInput
@@ -123,31 +129,26 @@ export default function AddItemPage() {
             onChangeText={setCondition}
             keyboardType="numeric"
           />
-
           <Text style={styles.label}>Upload Image</Text>
-          <TouchableOpacity
-            style={styles.uploadButton}
-            onPress={handleUploadImage}
-          >
+          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadImage}>
             {imageUri ? (
-              <Image source={{ uri: imageUri }} style={styles.uploadedImage} />
+              <View>
+                <Image source={{ uri: imageUri }} style={styles.uploadedImage} />
+                <TouchableOpacity style={styles.removeButton} onPress={removeImage}>
+                  <Text style={styles.removeText}>✖</Text>
+                </TouchableOpacity>
+              </View>
             ) : (
-              <Image
-                source={require("../assets/upload.png")}
-                style={styles.uploadIcon}
-              />
+              <Image source={require("../assets/upload.png")} style={styles.uploadIcon} />
             )}
           </TouchableOpacity>
-
-          {/* Save Button */}
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
         </ScrollView>
-
         {/* Footer */}
         <View style={styles.footer}>
-          <Text style={styles.footerText}>© 2024 MyApp. All rights reserved.</Text>
+          <Text style={styles.footerText}>©️ 2024 MyApp. All rights reserved.</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -160,11 +161,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8E1",
   },
   dropdown: {
-    marginBottom: 20,
-    borderRadius: 5,
-    backgroundColor: '#FFF8E1',
+    backgroundColor: "#FFF8E1",
+    borderWidth: 1,
     borderColor: "#CCC",
-    height: 50,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  dropdownText: {
+    fontSize: 14,
+    color: "#CCC",
+  },
+  dropdownList: {
+    backgroundColor: "#FFF8E1",
+    borderWidth: 1,
+    borderColor: "#CCC",
+    borderRadius: 5,
+    position: "absolute",
+    zIndex: 1,
+    width: "100%",
+    marginTop: 5,
   },
   header: {
     flexDirection: "row",
@@ -221,6 +237,22 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 5,
+  },
+  removeButton: {
+    position: "absolute",
+    top: -10,
+    right: -10,
+    // backgroundColor: "",
+    borderRadius: 15,
+    width: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  removeText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   saveButton: {
     backgroundColor: "#FFB343",

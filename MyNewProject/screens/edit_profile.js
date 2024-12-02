@@ -125,6 +125,7 @@ export default function EditProfile() {
             setItems={() => {}}
             style={styles.dropdown}
             placeholder="Select a category"
+            listMode="SCROLLVIEW"
           />
 
           <Text style={styles.label}>Skills You Want To Learn:</Text>
@@ -146,6 +147,7 @@ export default function EditProfile() {
             setItems={() => {}}
             style={styles.dropdown}
             placeholder="Select a category"
+            listMode="SCROLLVIEW"
           />
 
           <Text style={styles.label}>Username:</Text>
