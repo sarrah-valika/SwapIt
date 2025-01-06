@@ -1,8 +1,10 @@
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
 import SettingsPage from "./screens/settings";
 import AboutPage from "./screens/about_swap"; 
 import RecommendationPage from "./screens/Item_recommendation"; 
@@ -20,38 +22,63 @@ import CreateAccountPage from './screens/sign-up';
 import infoaddPage from './screens/sign-infoadd';
 import Editprofile from './screens/edit_profile';
 import Myprofile from './screens/my_profile';
+import {MessagingApp} from './react-native-chat/App'; // Import chat app
+import { NotificationProvider } from './contexts/NotificationContext';
+import * as Notifications from "expo-notifications";
+import * as SplashScreen from 'expo-splash-screen';
 
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
-    const API_URL = 'http://10.20.5.175:5000';; // Update this to your actual server URL
+const API_URL = 'http://192.168.0.109:5000'; // Update this to your server URL
 
-    export default function App() {
-      const [loading, setLoading] = useState(true); // State for loading
-    const [responseMessage, setResponseMessage] = useState(''); // State for response message
-    // Function to call the API
-    const testApiConnection = async () => {
+export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [responseMessage, setResponseMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  async function getData() {
+    const data = await AsyncStorage.getItem('isLoggedIn');
+    setIsLoggedIn(data);
+  }
+
+  const testApiConnection = async () => {
     try {
-    const response = await axios.get(`${API_URL}/api/test`); // Call the test API
-    setResponseMessage(response.data.message); // Set the response message
-    setLoading(false); // Update loading state
+      const response = await axios.get(`${API_URL}/api/test`);
+      setResponseMessage(response.data.message);
+      setLoading(false);
     } catch (error) {
-    console.error('Error connecting to the API:', error);
-    setResponseMessage('Error connecting to the API'); // Set error message
-    setLoading(false); // Update loading state
+      console.error('Error connecting to the API:', error);
+      setResponseMessage('Error connecting to the API');
+      setLoading(false);
     }
-    };
-    // Use effect to test API on component mount
-    useEffect(() => {
-    testApiConnection(); // Call the test API function
-    }, []);
+  };
+
+  useEffect(() => {
+    getData();
+    testApiConnection();
+  }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
+    <NotificationProvider>
     <NavigationContainer>
-      {loading ? ( // Show loading state
-        <View>
-        <Text>Loading...</Text> {/* This can be placed with a loading spinner if desired */}
-        </View>
-        ) : (
       <Stack.Navigator initialRouteName="GetStartedPage">
         <Stack.Screen name="GetStartedPage" component={GetStartedPage} options={{ headerShown: false }} />
         <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
@@ -66,10 +93,14 @@ const Stack = createStackNavigator();
         <Stack.Screen name="SkillDescriptionPage" component={SkillDescriptionPage} options={{ headerShown: false }} />
         <Stack.Screen name="SkillMatchingPage" component={SkillMatchingPage} options={{ headerShown: false }} />
         <Stack.Screen name="SettingsPage" component={SettingsPage} options={{ headerShown: false }} />
-        <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }}/>
+        <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }} />
         <Stack.Screen name="AddItemPage" component={AddItemPage} options={{ headerShown: false }} />
         <Stack.Screen name="HistoryPage" component={HistoryPage} options={{ headerShown: false }} />
         <Stack.Screen name="UserReviewPage" component={UserReviewPage} options={{ headerShown: false }} />
-        
+        <Stack.Screen name="MessagingPage" component={MessagingApp} options={{ headerShown: false }} />
       </Stack.Navigator>
- 
+      <Text>{responseMessage}</Text>
+    </NavigationContainer>
+   </NotificationProvider>
+  );
+}
